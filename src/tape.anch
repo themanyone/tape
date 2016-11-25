@@ -77,7 +77,7 @@ int main  int argc, char** argv
     char *e1, *e2
     e1 = strrchr  argv[argc], '.'
     e2 = strrchr  argv[option], '.'
-    if  strcmp(e1, e2)  INFO  "Warning: different file extensions. Media might not play.\n"
+    if  !e1||!e2||strcmp(e1, e2)  INFO  "Warning: First and last files have different extensions.\nMedia might not play.\n"
     /* open last file for append in binary mode? */
     DID  f_out=fopen(argv[argc],"w+")
     /* yes, let's iterate through each file */
@@ -88,7 +88,7 @@ int main  int argc, char** argv
         /* yes, append f_in to f_out */
         sz = attach_file  f_in, f_out
         /* now close input file */
-        DID  fclose(f_in)
+        DID  !fclose(f_in)
         /* keep track of file sizes */
         file_size[this_file] = sz
     
@@ -99,5 +99,5 @@ int main  int argc, char** argv
     /* write catalog size */
     fprintf  f_out, "%lu\n", sz
     /* close output file */
-    DID  fclose(f_out)
+    DID  !fclose(f_out)
     return 0
