@@ -74,6 +74,7 @@ int main  int argc, char** argv
                 help(argv)
             return 1;
         option++
+    
     /* open last file for append in binary mode? */
     DID  f_out=fopen(argv[argc],"w+")
     /* yes, let's iterate through each file */
@@ -83,10 +84,8 @@ int main  int argc, char** argv
         DID  f_in=fopen(argv[this_file],"rb")
         /* yes, append f_in to f_out */
         sz = attach_file  f_in, f_out
-        
         /* now close input file */
         DID  fclose(f_in)
-        
         /* keep track of file sizes */
         file_size[this_file] = sz
     
