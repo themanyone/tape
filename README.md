@@ -1,4 +1,5 @@
 # Things All People Enjoy (TAPE)
+<img style="float:right" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRGxXrtxYkj6fjku-t4RsWpM8n8UUbsAKN7qpKCWd1eon1KlwFV">
 
 Stick it all together. Compatible with current players!
 
