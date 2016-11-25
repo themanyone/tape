@@ -92,7 +92,7 @@ DLL_EXPORT void extract  ps_cat item, FILE *f_in, int pipe
         DID  init_decoder(&strm)
         DID  lzdecompress(&strm, &item->name, infile, outfile)
         lzma_end(&strm);
-    DID  fclose(outfile)
+    fclose(outfile)
 DLL_EXPORT void freecatalog(ps_cat cat)
     ps_cat next
     do

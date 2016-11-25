@@ -54,6 +54,19 @@ Most media may be taped together.
       -p extract [attachments] from input_media to pipe
       
       -h Help
+      
+# More examples:
+List files in bar.mp4
+        tape -l bar.mp4
+        
+        foo.mp3, 20405
+        bar.mp4, 102080
+        
+        (The numbers represent file size.)
+        
+Use ffplay to play foo.mp3 that has been attached to bar.mp4
+
+        tape -p foo.mp3 bar.mp4 | ffplay
 
 # Build Instructions
 

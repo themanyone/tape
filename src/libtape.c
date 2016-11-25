@@ -23,7 +23,7 @@ DLL_EXPORT FILE *getfile(const char *name, char *buf) {
     if (buf[OFS-1]=='\n') buf[OFS-1]=0;
     DID (sz = strrchr(buf, '\n')+1 - buf);
     if (sz > OFS) {
-        ERR ("%s does not appear to be a car file.\n", name);
+        ERR ("%s does not appear to be a tape archive.\n", name);
     } DID (offset = atol(buf+sz));
     if (offset > cat_SZ) {
         ERR ("Catalogs > %i bytes not supported at the moment.\n", cat_SZ);
@@ -92,7 +92,7 @@ DLL_EXPORT size_t attach_file(FILE* f_in, FILE* f_out) {
         DID (init_decoder(&strm));
         DID (lzdecompress(&strm, &item->name, infile, outfile));
         lzma_end(&strm);
-    } DID (fclose(outfile));
+    } fclose(outfile);
 } DLL_EXPORT void freecatalog(ps_cat cat) {
     ps_cat next;
     do {

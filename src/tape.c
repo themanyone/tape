@@ -65,8 +65,8 @@ int main (int argc, char** argv) {
                 }   } freecatalog(ctl);
                 fclose (f_in);
                 /* Close stdout to catch possible write errors */
-                if (fclose(stdout)) {
-                    fprintf (stderr, "Write error: %s\n", strerror(errno));
+                if (!fclose(stdout)) {
+                    INFO ("Write error: %s\n", strerror(errno));
                 } return 0;
             } default: {
                 if (argv[option][1]!='h') {
@@ -74,7 +74,11 @@ int main (int argc, char** argv) {
                 } help(argv);
             } return 1;
         } option++;
-    }    /* open last file for append in binary mode? */
+    } char *e1, *e2;
+    e1 = strrchr (argv[argc], '.');
+    e2 = strrchr (argv[option], '.');
+    if (strcmp(e1, e2)) INFO ("Warning: different file extensions. Media might not play.\n");
+    /* open last file for append in binary mode? */
     DID (f_out=fopen(argv[argc],"w+"));
     /* yes, let's iterate through each file */
     for (this_file=option; this_file < argc; this_file++) {
@@ -83,10 +87,8 @@ int main (int argc, char** argv) {
         DID (f_in=fopen(argv[this_file],"rb"));
         /* yes, append f_in to f_out */
         sz = attach_file (f_in, f_out);
-        
         /* now close input file */
         DID (fclose(f_in));
-        
         /* keep track of file sizes */
         file_size[this_file] = sz;
     }    
