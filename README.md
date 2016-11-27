@@ -8,12 +8,13 @@ Stick it all together. Compatible with current players!
     * Attach reference info to downloads
     * Remind people where that sh't came from
 
-# how it works
-It's just like cat.
+# How it works
 
 Did you know `cat` can string media files together?
 
 And that most media players will play them?
+
+Tape is sort of like that.
 
 # Tape is better than cat
 Things on tape
@@ -31,7 +32,7 @@ Make sure to give the last file the same file extension as the first, or it defe
 
 # Tape also works on `.jpg`, `gif`, `.mp4`...
 
-Most media may be taped together.
+Most media may be taped together
 
     * The first one serves as a preview
     * Existing viewers only show the first image
@@ -45,7 +46,7 @@ Most media may be taped together.
       
       The first file remains playable, and is never compressed.
 
-#Extraction:
+#Extraction
 `tape [options] [attachments] ... input_media`
 
       -l List media attachments
@@ -56,7 +57,7 @@ Most media may be taped together.
       
       -h Help
       
-# More examples:
+# More examples
 List files in bar.mp4
         tape -l bar.mp4
         
