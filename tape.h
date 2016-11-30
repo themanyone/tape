@@ -6,8 +6,8 @@
 *                      Version 2.0, January 2004
 *                   http://www.apache.org/licenses
 */
-#ifndef CAR_H_   /* Include guard */
-#define CAR_H_
+#ifndef TAPE_H_   /* Include guard */
+#define TAPE_H_
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -57,4 +57,4 @@ void help(char **);
  ": " __VA_ARGS__);exit (EXIT_FAILURE)
 #define INFO(...) fprintf (stderr, __VA_ARGS__);
 #define FOR_IN(item, list) for (void *item=list;item;item=list->next)
-#endif // CAR_H_
+#endif // TAPE_H_
