@@ -42,7 +42,7 @@ Most media may be taped together
 # create playable "tapes"
 `tape [options] [media] [attachments] ... output_media`
 
-      -c optionally compress attachments
+      -c optionally compress attachments with LZMA
       
       The first file remains playable, and is never compressed.
 

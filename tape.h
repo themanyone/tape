@@ -36,11 +36,12 @@ typedef struct cat {
     size_t sz;
     char name;
 } s_cat, *ps_cat;
-FILE *getfile(const char *, char *);
-size_t attach_file(FILE* , FILE*);
+void list_archive(const char *);
+FILE *open_archive(const char *, char *);
+size_t attach_file(FILE* , FILE*, uint32_t);
 ps_cat parse_catalog(char *);
-void extract (ps_cat, FILE *, int);
-void freecatalog(ps_cat );
+void extract_item (ps_cat, FILE *, int);
+void free_catalog(ps_cat );
 void help(char **);
 #if defined(_WIN32) || defined(_WIN64) // if windows
 #define DLL_EXPORT __declspec(dllexport) // make DLL
@@ -55,5 +56,5 @@ void help(char **);
 #define ERR(...) fprintf (stderr, STR(__LINE__)                        \
  ": " __VA_ARGS__);exit (EXIT_FAILURE)
 #define INFO(...) fprintf (stderr, __VA_ARGS__);
-
+#define FOR_IN(item, list) for (void *item=list;item;item=list->next)
 #endif // CAR_H_
