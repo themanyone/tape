@@ -72,6 +72,8 @@ Use ffplay to play foo.mp3 that has been attached to bar.mp4
 
 # Build Instructions
 
+        ./autogen.sh to regenerate configure
+        
         ./configure
         make
 
