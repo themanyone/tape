@@ -15,9 +15,9 @@
 
 int main (int argc, char** argv) {
     FILE *f_in, *f_out;
-    int this_file, option, pipe = 0, compress = 0, extract = 0;
+    int this_file, option, pipe = 0, compress = 0, extract = 0, cd=0;
     size_t file_size[255];
-    char buf[buf_MAX];
+    char buf[buf_MAX], *dir = NULL;
     setlocale (LC_ALL, '\0');
     /* argc is always 1 more than what we need... */
     argc--;
@@ -32,11 +32,15 @@ int main (int argc, char** argv) {
                     break;
                 } case 'l': {
                     if (argc < option + 1) {
-                        ERR ("No file listed.\n");
+                        ERR ("No file to list.\n");
                     } list_archive(argv[argc]);
                     return 0;
+                } case 'o': { /* pipe */
+                    cd = 1;
+                    break;
                 } case 'p': { /* pipe */
                     pipe = 1;
+                    extract = 1;
                     break;
                 } case 'x': {
                     extract = 1;
@@ -47,33 +51,30 @@ int main (int argc, char** argv) {
                     } help(argv);
                 } return 1;
         }   } option++;
-    } if (extract) {
+    } if (cd) dir = argv[option++];
+    if (extract) {
         if (argc < option) {
             ERR ("Error: No archive to extract from.\n");
-        }        /* open and read offset */
-        char txtcat[cat_SZ];
-        ps_cat item, ctl;
-        /* get file handle and text catalog */
-        f_in = open_archive (argv[argc], txtcat);
-        /* convert text catalog into linked list */
-        ctl = item = parse_catalog(txtcat);
-        DID (!fseek(f_in, 0, SEEK_SET));
-        /* go through catalog list */
-        for (item=ctl;item;item=item->next) {
-            if (argc==option) { /* extract all */
-                extract_item (item, f_in, pipe);
-            } else { /* extract files that match supplied args */
+        }        /* get catalog as list */
+        ps_list ctl = NULL;
+        f_in = open_archive (argv[argc], &ctl);
+        /* extract all? */
+        if (argc==option) extract_list (f_in, ctl, dir, pipe);
+        else {
+            /* go through catalog list */
+            FOR_IN (item, ctl) {
                 int i=option;
+                /* extract files named in command line */
                 for (;i<argc;i++) {
                     if (!strcmp(&item->name, argv[i])) {
-                        extract_item (item, f_in, pipe);
+                        extract_next (f_in, item, dir, pipe);
                         break;
                 }   }                /* skip ahead if we didn't extract a file */
                 if (i==argc) fseek(f_in, item->sz, SEEK_CUR);
         }   } free_catalog(ctl);
         fclose (f_in);
         /* Close stdout to catch possible write errors */
-        if (!fclose(stdout)) {
+        if (fclose(stdout)) {
             INFO ("Write error: %s\n", strerror(errno));
         } return 0;
     } char *e1, *e2;
