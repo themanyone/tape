@@ -34,8 +34,8 @@ bool init_decoder(lzma_stream *);
 #define cat_SZ 16384 //max size of text catalog
 #define OFS 20 // catalog size: up to 20 digits for size_t data type
 size_t sz, offset;
-typedef struct cat {
-    struct cat *next;
+typedef struct tape {
+    struct tape *next;
     size_t sz;
     char name;
 } s_list, *ps_list;
@@ -46,7 +46,6 @@ size_t attach_file(FILE* , FILE*, uint32_t);
 ps_list parse_catalog(char *);
 void extract_next (FILE *, ps_list, char*, int);
 void free_catalog(ps_list);
-void help(char **);
 #if defined(_WIN32) || defined(_WIN64) // if windows
 #define DLL_EXPORT __declspec(dllexport) // make DLL
 #else

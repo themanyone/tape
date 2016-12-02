@@ -12,8 +12,24 @@
 
 */
 #include "tape.h"
-
-int main (int argc, char** argv) {
+/** Print a help message.
+ * name: help
+ */
+void help(char **argv) {
+    char *s = basename (argv[0]);
+    printf ("Create playable archive: %s [options] [media] [attachments] ... output_media\n\n" 
+    
+            "   -c optionally compress attachments\n" 
+            "      (media remains playable, and is never compressed).\n\n" 
+            
+            "Extraction: %s [options] [attachments] ... input_media:\n" 
+            "   -l List media attachments\n" 
+            "   -x eXtract [attachments] from input_media\n" 
+            "   -o output to [directory]\n" 
+            "   -p extract [attachments] from input_media to pipe\n" 
+            "   -h Help\n", s, s);
+    exit (EXIT_FAILURE);
+} int main (int argc, char** argv) {
     FILE *f_in, *f_out;
     int this_file, option, pipe = 0, compress = 0, extract = 0, cd=0;
     size_t file_size[255];

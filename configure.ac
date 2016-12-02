@@ -1,4 +1,4 @@
-AC_INIT([tape], [1.0], [bug-automake@gnu.org])
+AC_INIT([tape], [0.2], [bug-automake@gnu.org])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AM_PROG_AR
 AC_PROG_RANLIB

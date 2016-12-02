@@ -10,7 +10,6 @@
 
 */
 #include "tape.h"
-#include <lzma.h>
 /** List contents of [archive name].
  * name: list_archive
  * @param *name is the playable archive to examine
@@ -172,25 +171,7 @@ DLL_EXPORT void free_catalog(ps_list cat)
  * name: free_catalog
  * @param *name is the file name
  * @param sz is the file size
+ * fixme stub
  */
 DLL_EXPORT void catalog_append(ps_list cat, char *name, size_t sz)
-    /* fixme */
-
-/** Print a help message.
- * name: help
- */
-DLL_EXPORT void help(char **argv)
-    char *s = basename  argv[0]
-    printf  "Create playable archive: %s [options] [media] [attachments] ... output_media\n\n" 
-    
-            "   -c optionally compress attachments\n" 
-            "      (media remains playable, and is never compressed).\n\n" 
-            
-            "Extraction: %s [options] [attachments] ... input_media:\n" 
-            "   -l List media attachments\n" 
-            "   -x eXtract [attachments] from input_media\n" 
-            "   -o output to [directory]\n" 
-            "   -p extract [attachments] from input_media to pipe\n" 
-            "   -h Help\n", s, s
-    exit  EXIT_FAILURE
-
+    return
