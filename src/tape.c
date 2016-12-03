@@ -16,26 +16,40 @@
  * name: help
  */
 void help(char **argv) {
-    char *s = basename (argv[0]);
-    printf ("Create playable archive: %s [options] [media] [attachments] ... output_media\n\n" 
-    
+    char *s = strrchr (argv[0], '/');
+    if (!s) s = strrchr (argv[0], '\\');
+    if (!s) s = argv[0]; else (s++);
+#ifdef WITH_LZMA
+ printf ("Create playable archive: %s [options] [media] [attachments] ... output_media\n\n" 
+
             "   -c optionally compress attachments\n" 
             "      (media remains playable, and is never compressed).\n\n" 
             
             "Extraction: %s [options] [attachments] ... input_media:\n" 
-            "   -l List media attachments\n" 
+            "   -k list with human-readable file sizes\n" 
+            "   -l list media attachments\n" 
             "   -x eXtract [attachments] from input_media\n" 
             "   -o output to [directory]\n" 
             "   -p extract [attachments] from input_media to pipe\n" 
             "   -h Help\n", s, s);
-    exit (EXIT_FAILURE);
+#else
+ printf ("Create playable archive: %s [options] [media] [attachments] ... output_media\n\n" 
+
+            "Extraction: %s [options] [attachments] ... input_media:\n" 
+            "   -k list with human-readable file sizes\n" 
+            "   -l list media attachments\n" 
+            "   -x eXtract [attachments] from input_media\n" 
+            "   -o output to [directory]\n" 
+            "   -p extract [attachments] from input_media to pipe\n" 
+            "   -h Help\n", s, s);
+#endif
+ exit (EXIT_FAILURE);
 } int main (int argc, char** argv) {
-    FILE *f_in, *f_out;
-    int this_file, option, pipe = 0, compress = 0, extract = 0, cd=0;
-    size_t file_size[255];
-    char buf[buf_MAX], *dir = NULL;
-    setlocale (LC_ALL, '\0');
-    /* argc is always 1 more than what we need... */
+    FILE *f_in;
+    int option, pipe = 0, compress = 0, extract = 0, cd=0, human = 0;
+    char *dir = NULL;
+    // setlocale  LC_ALL, '\0'
+    /* argc is always 1 more than what we need */
     argc--;
     /* handle options */
     option = 1;
@@ -46,11 +60,14 @@ void help(char **argv) {
                 case 'c': {
                     compress = 1;
                     break;
+                } case 'k': {
+                    human = 1;
                 } case 'l': {
                     if (argc < option + 1) {
                         ERR ("No file to list.\n");
-                    } list_archive(argv[argc]);
-                    return 0;
+                    } list_archive(argv[argc], human);
+                    return EXIT_SUCCESS;
+                    break;
                 } case 'o': { /* pipe */
                     cd = 1;
                     break;
@@ -65,7 +82,7 @@ void help(char **argv) {
                     if (argv[option][c]!='h') {
                         INFO ("Unknown option, %c.\n", argv[option][c]);
                     } help(argv);
-                } return 1;
+                } return EXIT_FAILURE;
         }   } option++;
     } if (cd) dir = argv[option++];
     if (extract) {
@@ -74,50 +91,18 @@ void help(char **argv) {
         }        /* get catalog as list */
         ps_list ctl = NULL;
         f_in = open_archive (argv[argc], &ctl);
-        /* extract all? */
-        if (argc==option) extract_list (f_in, ctl, dir, pipe);
-        else {
-            /* go through catalog list */
-            FOR_IN (item, ctl) {
-                int i=option;
-                /* extract files named in command line */
-                for (;i<argc;i++) {
-                    if (!strcmp(&item->name, argv[i])) {
-                        extract_next (f_in, item, dir, pipe);
-                        break;
-                }   }                /* skip ahead if we didn't extract a file */
-                if (i==argc) fseek(f_in, item->sz, SEEK_CUR);
-        }   } free_catalog(ctl);
+        /* mark specified files for extraction */
+        if (argc!=option) FOR_IN (item, ctl) {
+            item->ex = 0;
+            int i=option;
+            for (;i<argc;i++) {
+                if (!strcmp(&item->name, argv[i])) item->ex = 1;
+        }   } extract_list (f_in, ctl, dir, pipe);
+        free_catalog(ctl);
         fclose (f_in);
         /* Close stdout to catch possible write errors */
-        if (fclose(stdout)) {
-            INFO ("Write error: %s\n", strerror(errno));
-        } return 0;
-    } char *e1, *e2;
-    e1 = strrchr (argv[argc], '.');
-    e2 = strrchr (argv[option], '.');
-    if (!e1||!e2||strcmp(e1, e2)) INFO ("Warning: First and last files have different extensions.\nMedia might not play.\n");
-    /* open last file for append in binary mode? */
-    DID (f_out=fopen(argv[argc],"w+"));
-    /* yes, let's iterate through each file */
-    for (this_file=option; this_file < argc; this_file++) {
-        /* can the file be opened for reading? */
-        INFO ("Adding %s\n", argv[this_file]);
-        DID (f_in=fopen(argv[this_file],"rb"));
-        /* yes, append f_in to f_out */
-        sz = attach_file (f_in, f_out, compress);
-        /* now close input file */
-        DID (!fclose(f_in));
-        /* keep track of file sizes */
-        file_size[this_file] = sz;
-        if (compress == 1) compress = 6;
-    }    /* write catalog */
-    sz = 0;
-    for (this_file=option; this_file < argc; this_file++) {
-        sz += fprintf (f_out, "%s, %lu\n", argv[this_file], file_size[this_file]);
-    }    /* write catalog size */
-    fprintf (f_out, "%lu\n", sz);
-    /* close output file */
-    DID (!fclose(f_out));
-    return 0;
+        return EXIT_SUCCESS;
+    }    /* default action: create tape from what's left of argv array */
+    tape_from_array(argc - option, &argv[option], compress);
+    return EXIT_SUCCESS;
 } 

@@ -30,7 +30,7 @@ With different types of media, players should stop after the first one.
 
 Make sure to give the last file the same file extension as the first, or it defeats the purpose of having a playable archive format.
 
-# Tape also works on `.jpg`, `gif`, `.mp4`...
+# Tape Also Works On `.jpg`, `gif`, `.mp4`...
 
 Most media may be taped together
 
@@ -39,7 +39,7 @@ Most media may be taped together
     * Newer viewers will be able to flip through
     * New players will be able to read animations
 
-# create playable "tapes"
+# Create Playable "Tapes" 
 `tape [options] [media] [attachments] ... output_media`
 
       -c optionally compress attachments with LZMA
@@ -57,18 +57,32 @@ Most media may be taped together
       
       -h Help
       
-# More examples
-List files in bar.mp4
+# More Examples 
+List files in bar.mp4.
+
         tape -l bar.mp4
         
-        foo.mp3, 20405
-        bar.mp4, 102080
+        Contents of bar.mp4:
+        2.4M    bar.mp4
+        3M      foo.mp3
+        3.4M    baz.vpx
+        49K     cover_art.jpg
+        2K      LICENSE
+        1K      README
         
-        (The numbers represent file size.)
+        (The numbers represent file sizes.)
         
-Use ffplay to play foo.mp3 that has been attached to bar.mp4
+Play bar.mp4 with any media player such as ffplay.
+
+        ffplay bar.mp4
+        
+Use ffplay to play "hidden" foo.mp3 attached to bar.mp4.
 
         tape -p foo.mp3 bar.mp4 | ffplay
+
+# Build System Configuration
+
+
 
 # Build Instructions
 

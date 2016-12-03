@@ -2,4 +2,4 @@
 
 Converting entire build to Automake and renaming several files forced restarting the repo from scratch with git `--mirror` from new repository for consistency.
 
-The goal is to 1) separate out all the functions into a separate library, and 2) make the library more usable. The first step is done.
+We separated out all the functions into a separate library.

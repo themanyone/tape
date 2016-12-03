@@ -1,4 +1,4 @@
-AC_INIT([tape], [0.2], [bug-automake@gnu.org])
+AC_INIT([tape], [1.0], [bug-automake@gnu.org])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
 AM_PROG_AR
 AC_PROG_RANLIB
@@ -8,4 +8,17 @@ AC_CONFIG_FILES([
  Makefile
  src/Makefile
 ])
+#pkg-config
+PKG_PROG_PKG_CONFIG
+PKG_CHECK_MODULES([LZMA], [liblzma])
+
+AC_ARG_WITH([xz],
+	[AS_HELP_STRING([--with-xz], [Enable lzma xz compression])],
+	[],
+	[with_xz=yes])
+
+AM_CONDITIONAL([WITH_LZMA], [test x$with_xz = xyes])
+AS_IF([test x$with_xz = xyes],
+[AC_DEFINE(WITH_LZMA,[1],[Use lzma xz compression])])
+
 AC_OUTPUT
