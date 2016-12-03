@@ -78,8 +78,8 @@ DLL_EXPORT void extract_next (FILE *f_in, ps_list item, char *dir, int pipe) {
         else DID (outfile = fopen(fullpath,"wb"));
     } DID (fread(buf, 1, item->sz, f_in));
     DID (fwrite(buf, 1, item->sz, outfile));
-    if (compress) {
-        #ifdef WITH_LZMA
+#ifdef WITH_LZMA
+ if (compress) {
         DID (!fseek(outfile, 0, SEEK_SET));
         FILE *infile = outfile;
         if (pipe) outfile = stdout;
@@ -88,11 +88,12 @@ DLL_EXPORT void extract_next (FILE *f_in, ps_list item, char *dir, int pipe) {
         DID (init_decoder(&strm));
         DID (lzdecompress(&strm, &item->name, infile, outfile));
         lzma_end(&strm);
-        #else
- INFO ("Compression not supported. Build with --with-xz=yes.\n");
-}   }
-        #endif
-
+    }
+#else
+    INFO ("Compression not supported. Build with --with-xz=yes.\n");
+#endif
+ return;
+}
 /** Get text catalog in buf and return file pointer.
  * name: open_archive
  * @param *name is a pointer to an archive name to open
@@ -140,17 +141,16 @@ DLL_EXPORT size_t attach_file(FILE *f_out, char *name, unsigned int preset) {
     INFO ("Adding %s\n", name);
     DID (f_in=fopen(name, "rb"));
     /* flatten only if compression preset is set > 1 */
-    if (preset > 1) {
-        #ifdef WITH_LZMA
+    #ifdef WITH_LZMA
+ if (preset > 1) {
         lzma_stream strm = LZMA_STREAM_INIT;
         int success = init_encoder(&strm, preset);
         if (success) {
             sz = lzcompress (&strm, f_in, f_out);
             lzma_end(&strm);
-        }
-            #endif
-        INFO ("Compression not supported. Build with --with-xz=yes.\n");
-    } else {
+    }   }
+    #endif
+    if (preset < 2) {
         while ((offset=fread(buf, 1, buf_MAX, f_in))) {
             fwrite (buf, 1, offset, f_out);
             DID (!ferror(f_out));
