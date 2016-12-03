@@ -57,7 +57,7 @@ DLL_EXPORT void extract_list(FILE *f_in, ps_list files, char *dir, int pipe)
  */
 DLL_EXPORT void extract_next  FILE *f_in, ps_list item, char *dir, int pipe
     char buf[item->sz], fullpath[MAX_PATH]
-    FILE *infile, *outfile
+    FILE *outfile
     int compress = 0
     if  !item->ex
         /* skip extraction */
@@ -81,7 +81,7 @@ DLL_EXPORT void extract_next  FILE *f_in, ps_list item, char *dir, int pipe
     if  compress
         #ifdef WITH_LZMA
         DID  !fseek(outfile, 0, SEEK_SET)
-        infile = outfile
+        FILE *infile = outfile
         if  pipe  outfile = stdout
         else DID  outfile = fopen(&item->name,"wb")
         lzma_stream strm = LZMA_STREAM_INIT
@@ -89,9 +89,8 @@ DLL_EXPORT void extract_next  FILE *f_in, ps_list item, char *dir, int pipe
         DID  lzdecompress(&strm, &item->name, infile, outfile)
         lzma_end(&strm);
         #else
-        INFO  "Uncompress not supported. Build with --enable-lzma.\n"
+        INFO  "Compression not supported. Build with --with-xz=yes.\n"
         #endif
-        return
 
 /** Get text catalog in buf and return file pointer.
  * name: open_archive
@@ -102,7 +101,7 @@ DLL_EXPORT void extract_next  FILE *f_in, ps_list item, char *dir, int pipe
 DLL_EXPORT FILE *open_archive(const char *name, ps_list *cat)
     FILE *f_in
     size_t sz
-    char buf[buf_MAX], *s, c
+    char buf[buf_MAX], *s
     /* open and read offset offset */
     DID  f_in=fopen(name, "rb")
     // fseek(f_in, -1, SEEK_END)
@@ -141,13 +140,15 @@ DLL_EXPORT size_t attach_file(FILE *f_out, char *name, unsigned int preset)
     DID  f_in=fopen(name, "rb")
     /* flatten only if compression preset is set > 1 */
     if  preset > 1
-    #ifdef WITH_LZMA
+        #ifdef WITH_LZMA
         lzma_stream strm = LZMA_STREAM_INIT;
         int success = init_encoder(&strm, preset);
         if  success
             sz = lzcompress  &strm, f_in, f_out
             lzma_end(&strm);
-    #endif
+            #endif
+        INFO  "Compression not supported. Build with --with-xz=yes.\n"
+        
     else
         while  (offset=fread(buf, 1, buf_MAX, f_in))
             fwrite  buf, 1, offset, f_out
