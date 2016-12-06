@@ -14,20 +14,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <stdbool.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <lzma.h>
+#include "lz.h"
 
-#if defined(_WIN32) || defined(_WIN64) // if windows
-#define DLL_EXPORT __declspec(dllexport) // make DLL
-#else
-#define DLL_EXPORT
-#endif
-
-DLL_EXPORT
 bool
 init_decoder(lzma_stream *strm)
 {
@@ -105,7 +93,7 @@ init_decoder(lzma_stream *strm)
 	return false;
 }
 
-DLL_EXPORT
+
 bool
 lzdecompress(lzma_stream *strm, const char *inname, FILE *infile, FILE *outfile)
 {

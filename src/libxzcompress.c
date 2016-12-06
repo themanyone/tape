@@ -14,20 +14,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-#include <stdbool.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <lzma.h>
+#include "lz.h"
 
-#if defined(_WIN32) || defined(_WIN64) // if windows
-#define DLL_EXPORT __declspec(dllexport) // make DLL
-#else
-#define DLL_EXPORT
-#endif
-
-DLL_EXPORT
 bool init_encoder(lzma_stream *strm, uint32_t preset)
 {
     // Initialize the encoder using a preset. Set the integrity to check
@@ -74,7 +62,6 @@ bool init_encoder(lzma_stream *strm, uint32_t preset)
     return false;
 }
 
-DLL_EXPORT
 size_t
 lzcompress(lzma_stream *strm, FILE *infile, FILE *outfile)
 {

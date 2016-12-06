@@ -8,7 +8,11 @@
 */
 #ifndef TAPE_H_   /* Include guard */
 #define TAPE_H_
-#include "config.h"
+
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,15 +23,6 @@
 #include <io.h>
 #else
 #include <unistd.h>
-#endif
-
-#ifdef WITH_LZMA
-#include <lzma.h>
-#include <stdbool.h>
-size_t lzcompress(lzma_stream *, FILE *, FILE *);
-bool init_encoder(lzma_stream *, uint32_t );
-bool lzdecompress(lzma_stream *, const char *, FILE *, FILE *);
-bool init_decoder(lzma_stream *);
 #endif
 
 //limits.h
@@ -45,20 +40,16 @@ typedef struct tape {
     int ex;
     char name;
 } s_list, *ps_list;
-void list_archive(const char *, int);
-void extract_list(FILE *, ps_list, char*, int);
-FILE *open_archive(const char *, ps_list*);
-size_t attach_file(FILE*, char* , unsigned int);
-ps_list parse_catalog(char *);
-void extract_next (FILE *, ps_list, char*, int);
-void tape_from_array(int, char **, int);
-void catalog_append(ps_list *, char *, size_t);
-void free_catalog(ps_list);
-#ifdef _WIN32
-#define DLL_EXPORT __declspec(dllexport) // make DLL
-#else
-#define DLL_EXPORT
-#endif
+extern void list_archive(const char *, int);
+extern void extract_list(FILE *, ps_list, char*, int);
+extern FILE *open_archive(const char *, ps_list*);
+extern size_t attach_file(FILE*, char* , unsigned int);
+extern ps_list parse_catalog(char *);
+extern void extract_next (FILE *, ps_list, char*, int);
+extern void tape_from_array(int, char **, int);
+extern void catalog_append(ps_list *, char *, size_t);
+extern void free_catalog(ps_list);
+
 // Error handling macros
 #define _STR(a) #a
 #define STR(a) _STR(a)

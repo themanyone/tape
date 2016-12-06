@@ -10,12 +10,14 @@
 
 */
 #include "tape.h"
-#include <lzma.h>
+#ifdef WITH_LZMA
+#include "lz.h"
+#endif
 /** List contents of [archive name].
  * name: list_archive
  * @param *name is the playable archive to examine
  */
-DLL_EXPORT void list_archive(const char *name, int hr)
+void list_archive(const char *name, int hr)
     ps_list cat = NULL
     size_t fs
     int i = 0
@@ -39,7 +41,7 @@ DLL_EXPORT void list_archive(const char *name, int hr)
  * @param *dir is an optional output directory to send files to
  * @param pipe is an integer flag 1=pipe to stdout
  */
-DLL_EXPORT void extract_list(FILE *f_in, ps_list files, char *dir, int pipe)
+void extract_list(FILE *f_in, ps_list files, char *dir, int pipe)
     /* go through catalog list */
     FOR_IN  item, files  extract_next  f_in, item, dir, pipe
     /* Close stdout to catch possible write errors */
@@ -55,7 +57,7 @@ DLL_EXPORT void extract_list(FILE *f_in, ps_list files, char *dir, int pipe)
  * @param *dir is an optional output directory to send files to
  * @param pipe = 0 to extract to file, 1 to pipe to stdout
  */
-DLL_EXPORT void extract_next  FILE *f_in, ps_list item, char *dir, int pipe
+void extract_next  FILE *f_in, ps_list item, char *dir, int pipe
     char buf[item->sz], fullpath[MAX_PATH]
     FILE *outfile
     int compress = 0
@@ -99,7 +101,7 @@ DLL_EXPORT void extract_next  FILE *f_in, ps_list item, char *dir, int pipe
  * @param *cat references a pointer to attach catalog list to
  * @return a file handle to the opened archive
  */
-DLL_EXPORT FILE *open_archive(const char *name, ps_list *cat)
+FILE *open_archive(const char *name, ps_list *cat)
     FILE *f_in
     size_t sz
     char buf[buf_MAX], *s
@@ -132,7 +134,7 @@ DLL_EXPORT FILE *open_archive(const char *name, ps_list *cat)
  * @param preset is the compression preset > 1 = compress
  * @return number of bytes written
  */
-DLL_EXPORT size_t attach_file(FILE *f_out, char *name, unsigned int preset)
+size_t attach_file(FILE *f_out, char *name, unsigned int preset)
     size_t sz = 0
     char buf[buf_MAX]
     FILE *f_in
@@ -163,7 +165,7 @@ DLL_EXPORT size_t attach_file(FILE *f_out, char *name, unsigned int preset)
  * @return a catalog linked list structure of files, sizes
  * Call free_catalog() on it when done!
  */
-DLL_EXPORT ps_list parse_catalog(char *catalog)
+ps_list parse_catalog(char *catalog)
     /* return catalog as linked list (must be freed) */
     char name[MAX_PATH]
     size_t sz
@@ -178,7 +180,7 @@ DLL_EXPORT ps_list parse_catalog(char *catalog)
  * name: free_catalog
  * @param cat is a pointer to catalog linked list to dispose of
  */
-DLL_EXPORT void free_catalog(ps_list cat)
+void free_catalog(ps_list cat)
     ps_list next
     do
         next = cat->next
@@ -191,7 +193,7 @@ DLL_EXPORT void free_catalog(ps_list cat)
  * @param *name is the file name string to append
  * @param sz is the file size
  */
-DLL_EXPORT void catalog_append(ps_list *pcat, char *name, size_t sz)
+void catalog_append(ps_list *pcat, char *name, size_t sz)
     ps_list cat = *pcat
     if  !cat  cat = *pcat = malloc(sizeof *cat + MAX_PATH)
     else
@@ -210,7 +212,7 @@ DLL_EXPORT void catalog_append(ps_list *pcat, char *name, size_t sz)
  * @param **argv is the file name array
  * @param compress is an integer 1 = compress files
  */
-DLL_EXPORT void tape_from_array(int last, char **argv, int compress)
+void tape_from_array(int last, char **argv, int compress)
     size_t file_size[255]
     int this_file, option = 0
     char *e1, *e2
