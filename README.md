@@ -111,6 +111,10 @@ Use ffplay to play "hidden" foo.mp3 attached to bar.mp4.
 
 `tape -p foo.mp3 bar.mp4 | ffplay`
 
+## Get it now
+
+You should start playing with tape immediately. Download now from https://github.com/themanyone/tape
+
 ## Build System Configuration
 
 Everyone should have access to a [GNU Build System](https://en.wikipedia.org/wiki/GNU_Build_System) in order to avail themselves of the abundance of [free and open source (FOSS) software](http://www.freeopensourcesoftware.org/index.php?title=Main_Page) available for Windows, Linux, Android, iPhones, and many other types of computers and devices. FOSS software is distributed as [source code](https://en.wikipedia.org/wiki/Source_code) and must be compiled before use. Different [compilers and build systems](https://en.wikipedia.org/wiki/Compiler) exist for each type of system.
