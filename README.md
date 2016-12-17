@@ -1,4 +1,3 @@
-
 # Things All People Enjoy (TAPE)
 
 ###Stick files together with tape. Compatible with current players!
@@ -18,9 +17,9 @@
 * **Reversible**. Put a catalog at the end, so files may be extracted later.
 * **Stable**. Tape is a command line tool. Optional graphical interface coming soon.
 * **Fast**. No waiting for a large application to load.
-* **Free**. Copy, share, even sell Tape, but publish a link to the [author's web site](http://thenerdshow.com).
+* **Free**. Copy, share, even sell Tape, but please link to the [author's web site](http://thenerdshow.com).
 
-## Mission statement: Putting it all together.
+## Mission Statement: Putting It All Together.
 
 * Bundle a bunch of movies or music into one playable file.
 * Easily take them apart again.
@@ -32,7 +31,7 @@
 * Remind people where that sh't came from.
 * Memories, man. Memories.
 
-## How it works
+## How It Works
 
 Did you know `cat` can string media files together?
 
@@ -111,17 +110,29 @@ Use ffplay to play "hidden" foo.mp3 attached to bar.mp4.
 
 `tape -p foo.mp3 bar.mp4 | ffplay`
 
-## Get it now
+## Get It Now
 
-You should start playing with tape immediately. Download now from https://github.com/themanyone/tape
+Start playing with tape immediately. Download from https://github.com/themanyone/tape or use [git](https://git-scm.com/download/win):
+
+`git clone https://github.com/themanyone/tape.git`
+
+## Metadata Alternatives
+
+Tape allows us to attach any kind of data to files in a more or less uniform way, even metadata. But maybe we don't want to wantonly tape metadata onto files when there are already standards for that. Or maybe we do, because there are too many competing standards. Here is what we need to know about metadata along with its advantages and disadvantages.
+
+* [How to tell where a file was downloaded from in Windows](http://superuser.com/questions/695507/find-out-where-a-file-was-downloaded-from)
+* [What EXIF Photo Data Is, How to Find It & How to Understand It](http://www.makeuseof.com/tag/exif-photo-data-find-understand/)
+* [ID3 metadata tags](https://en.wikipedia.org/wiki/ID3)
+* [Metadata means "data about data"](https://en.wikipedia.org/wiki/Metadata)
+* [More metadata formats](http://www.ifla.org/book/export/html/8817)
 
 ## Build System Configuration
 
 Everyone should have access to a [GNU Build System](https://en.wikipedia.org/wiki/GNU_Build_System) in order to avail themselves of the abundance of [free and open source (FOSS) software](http://www.freeopensourcesoftware.org/index.php?title=Main_Page) available for Windows, Linux, Android, iPhones, and many other types of computers and devices. FOSS software is distributed as [source code](https://en.wikipedia.org/wiki/Source_code) and must be compiled before use. Different [compilers and build systems](https://en.wikipedia.org/wiki/Compiler) exist for each type of system.
 
-###Windows development
+### Windows Development
 
-The best free development systems for Windows are [Cygwin](http://www.cygwin.com/), [MinGW](http://blog.florianwolters.de/educational/2013/11/21/Installing-MinGW/) or MSYS (available through MinGW's mingw-get) to compile free software. To build true windows programs and DLLs, use [MinGW](http://www.mingw.org/), or [MinGW via Cygwin](https://www.ntu.edu.sg/home/ehchua/programming/howto/Cygwin_HowTo.html). One may build Windows programs on Cygwin without using MinGW, but they will depend on `Cygwin.dll` to run.
+The best, free way to get started with development for Windows is with [Cygwin](http://www.cygwin.com/), [MinGW](http://blog.florianwolters.de/educational/2013/11/21/Installing-MinGW/) or MSYS (available through MinGW's mingw-get) to compile free software. To build true windows programs and DLLs, use [MinGW](http://www.mingw.org/), or [MinGW via Cygwin](https://www.ntu.edu.sg/home/ehchua/programming/howto/Cygwin_HowTo.html). One may build Windows programs on Cygwin without using MinGW, but they will depend on `Cygwin.dll` to run.
 
 *Installing Minimalist GNU for Windows (MinGW) on Windows*
 
@@ -129,7 +140,7 @@ The best free development systems for Windows are [Cygwin](http://www.cygwin.com
 
 * [official documentation](http://www.mingw.org/wiki/howto_install_the_mingw_gcc_compiler_suite)
 
-*Installing Cygwin *
+*Installing Cygwin*
 
 * [unofficial howto](https://www.ntu.edu.sg/home/ehchua/programming/howto/Cygwin_HowTo.html)
 
@@ -137,7 +148,7 @@ The best free development systems for Windows are [Cygwin](http://www.cygwin.com
 
 Note: It is also possible to use [Microsoft Visual Studio(MSVC)](https://folti.blogs.balabit.com/2009/08/compiling-autoconfmake-projects-under-msvc-part-one/) to build FOSS software, but the task is not recommended for beginners.
 
-###Linux development
+### Linux Development
 
 Different brands of Linux each have their own way of installing software, including compilers and build systems.
 
@@ -149,7 +160,7 @@ Different brands of Linux each have their own way of installing software, includ
 
 Install `xz-devel` or `xz-dev` via whatever package manager came with the build system installation above.
 
-## Compiling free software
+## Compiling Free Software
 
 *These steps are applicable to most free software builds*
 
