@@ -1,7 +1,7 @@
 bin_PROGRAMS = tape
 tape_SOURCES = tape.c
-tape_CFLAGS = -g -Wall -pedantic -std=c99
-tape_LDFLAGS = -lm -ltape
+tape_LDFLAGS = -ltape -lm
+AM_CFLAGS = -g -Wall -pedantic -std=c99
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -11,7 +11,7 @@ libtape_la_SOURCES = libtape.c
 
 if WITH_LZMA
 libtape_la_LDFLAGS += @LZMA_LIBS@
-libtape_la_CFLAGS = @LZMA_CFLAGS@
+libtape_la_CFLAGS   = @LZMA_CFLAGS@
 libtape_la_SOURCES += libxzextract.c libxzcompress.c
 endif
 
