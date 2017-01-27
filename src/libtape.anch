@@ -29,7 +29,7 @@ void list_archive(const char *name, int hr)
         f = fs = item->sz
         if  hr
             for  i=0;i<4;i++  if  !(fs / (size_t)pow(1000, i+1))  break
-            f = fs >= 1000 ? roundf(fs / pow(100, i)) / 10.0 : fs
+            f = fs >= 1000 ? roundf(fs / pow(1000, i) * 10.0 ) / 10.0 : fs
         printf  "%g%c\t%s\n", f, sizes[i], &item->name
     fclose(f_in)
     free_catalog  cat
@@ -182,9 +182,10 @@ ps_list parse_catalog(char *catalog)
  */
 void free_catalog(ps_list cat)
     ps_list next
+    if  !cat  return;
     do
         next = cat->next
-        if  cat  free(cat)
+        free  cat
     while  (cat = next)
 
 /** Append name, size to linked list structure ref.
