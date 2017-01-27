@@ -28,9 +28,9 @@ void list_archive(const char *name, int hr) {
     FOR_IN (item, cat) {
         f = fs = item->sz;
         if (hr) {
-            for (i=0;i<4;i++) if (!(fs / (size_t)pow(1000, i+1))) break;
-            f = fs >= 1000 ? roundf(fs / pow(1000, i) * 10.0 ) / 10.0 : fs;
-        } printf ("%g%c\t%s\n", f, sizes[i], &item->name);
+            for (i=0;i<4;i++) if (!(fs / (size_t)pow(1024, i+1))) break;
+            f = fs >= 1024 ? roundf(fs / pow(1024, i) * 10.0 ) / 10.0 : fs;
+        } printf ("%.*lf%c\t%s\n", hr, f, sizes[i], &item->name);
     } fclose(f_in);
     free_catalog (cat);
 }
