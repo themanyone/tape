@@ -58,16 +58,18 @@ void extract_list(FILE *f_in, ps_list files, char *dir, int pipe) {
  * @param pipe = 0 to extract to file, 1 to pipe to stdout
  */
 void extract_next (FILE *f_in, ps_list item, char *dir, int pipe) {
-    char buf[item->sz], fullpath[MAX_PATH];
+    char *buf, fullpath[MAX_PATH];
     FILE *outfile;
     int compress = 0;
     if (!item->ex) {
         /* skip extraction */
         fseek (f_in, item->sz, SEEK_CUR);
+        INFO ("skipping %s\n", fullpath);
         return;
     } if (dir && !pipe) sprintf (fullpath, "%s/%s", dir, &item->name);
     else sprintf (fullpath, "%s", &item->name);
     INFO ("extracting %s\n", fullpath);
+    DID (buf = malloc(item->sz));
     /* read magic to see if item is compressed */
     DID (fread(buf, 1, OFS, f_in));
     DID (!fseek(f_in, -OFS, SEEK_CUR));
@@ -80,6 +82,7 @@ void extract_next (FILE *f_in, ps_list item, char *dir, int pipe) {
         else DID (outfile = fopen(fullpath,"wb"));
     } DID (fread(buf, 1, item->sz, f_in));
     DID (fwrite(buf, 1, item->sz, outfile));
+    free (buf);
 #ifdef WITH_LZMA
  if (compress) {
         DID (!fseek(outfile, 0, SEEK_SET));
@@ -105,23 +108,20 @@ void extract_next (FILE *f_in, ps_list item, char *dir, int pipe) {
 FILE *open_archive(const char *name, ps_list *cat) {
     FILE *f_in;
     size_t sz;
-    char buf[buf_MAX], *s;
+    char buf[buf_MAX] = {0}, *s;
     /* open and read offset offset */
     DID (f_in=fopen(name, "rb"));
-    // fseek(f_in, -1, SEEK_END)
-    // DID  read(f_in, &c, 1)
     if (fseek(f_in, -OFS, SEEK_END)) {
         ERR ("%s unrecognized archive.\n", name);
     } DID (fread(buf, 1, OFS, f_in));
     if ((s = strrchr(buf, '\n'))) *s = 0;
-    if ((s = strrchr(buf, '\n'))) {
-        sz = strrchr(buf, '\n')+1 - buf;
-    } if (!s || sz > OFS) {
+    if ((s = strrchr(buf, '\n'))) sz = s + 1 - buf;
+    else {
         ERR ("%s does not appear to be a tape archive.\n", name);
-    } offset = atol(buf+sz);
+    } offset = atol(buf + sz);
     if (!offset || offset > cat_SZ) {
         ERR ("Catalogs > %i bytes not supported for now.\n", cat_SZ);
-    } DID (!fseek(f_in, -(offset+OFS-sz), SEEK_END));
+    } DID (!fseek(f_in, -(offset + OFS - sz), SEEK_END));
     DID (fread(buf, 1, offset, f_in));
     buf[offset] = 0;
     *cat = parse_catalog(buf);
@@ -141,7 +141,7 @@ size_t attach_file(FILE *f_out, char *name, unsigned int preset) {
     FILE *f_in;
     /* can the file be opened for reading? */
     INFO ("Adding %s\n", name);
-    DID (f_in=fopen(name, "rb"));
+    DID (f_in = fopen(name, "rb"));
     /* flatten only if compression preset is set > 1 */
     #ifdef WITH_LZMA
  if (preset > 1) {
