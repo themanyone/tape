@@ -1,13 +1,8 @@
 # Things All People Enjoy (TAPE)
 
-###Stick files together with tape. Compatible with current players!
-<img style="float:right" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRGxXrtxYkj6fjku-t4RsWpM8n8UUbsAKN7qpKCWd1eon1KlwFV">Brought to you by [TheNerdShow.com](http://thenerdshow.com).
+### Stick files together with tape. Compatible with current players!
 
-* Stick a bunch of movies or music together.
-* Take them apart again.
-* Write on the back of digital photos.
-* Attach reference info to downloads.
-* Remind people where that sh't came from.
+<img style="float:right" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRGxXrtxYkj6fjku-t4RsWpM8n8UUbsAKN7qpKCWd1eon1KlwFV">Brought to you by [TheNerdShow.com](http://thenerdshow.com).
 
 ## The Vision of Tape
 
@@ -48,11 +43,11 @@ For example, `tape` can combine `t.mp3`, `a.mp3`, and `pe.mp3` into a new `tape.
 
 `tape t.mp3 a.mp3 pe.mp3 tape.mp3`
 
-In this case `tape.mp3` has the same file extension as `t.mp3` does, so the resulting archive will be playable (recommended).
+In this case, `tape.mp3` has the same file extension as `t.mp3` does, so the resulting archive will be playable (recommended).
 
-**Note on combining different types of media**. This is fine to do. Most players will stop playing when they encounter a different type of media in the stream though. Even when combining the same types of media files there could be hiccups that will stop some players from continuing, such as different bitrate, frame size, or compression scheme. The free console media player, [mpg123](https://www.mpg123.de/) calles these "Frankenstein streams". Tools like ffmpeg may be used to convert attachments into the same format, if necessary.
+**Note on combining different types of media**. This is fine to do. Most players will stop playing when they encounter a different type of media in the stream though. Even when combining the same types of media files there could be hiccups that will stop some players from continuing, such as different bitrate, frame size, or compression scheme. The free console media player, [mpg123](https://www.mpg123.de/) calls these "Frankenstein streams". Tools like ffmpeg may be used to convert attachments into the same format, if necessary.
 
-## Tape Also Works On `.jpg`, `gif`, `.mp4`...
+## Tape Also Works on `.jpg`, `gif`, `.mp4`...
 
 Most media may be taped together
 
@@ -69,7 +64,7 @@ tape [options] [media] [attachments] ... output_media
       
 The first file remains playable, and is never compressed.
 ```
-##Extraction
+## Extraction
 ```
 tape [options] [attachments] ... input_media:
 
@@ -117,7 +112,7 @@ You should start playing with tape immediately. Download from https://github.com
 
 ## Metadata Alternatives
 
-Tape allows us to attach any kind of data to files in a more or less uniform way, even metadata. But maybe we don't want to wantonly tape metadata onto files when there are already standards for that. *Or maybe we do, because there are too many competing standards.* Here is what we need to know about metadata along with its advantages and disadvantages.
+Tape allows us to attach any kind of data to files in a more or less uniform way, even metadata. But maybe we don't want to wantonly tape metadata onto files when there are already standards for that. *Or maybe we do because there are too many competing standards.* Here is what we need to know about metadata along with its advantages and disadvantages.
 
 * [How to tell where a file was downloaded from in Windows](http://superuser.com/questions/695507/find-out-where-a-file-was-downloaded-from)
 * [What EXIF Photo Data Is, How to Find It & How to Understand It](http://www.makeuseof.com/tag/exif-photo-data-find-understand/)
