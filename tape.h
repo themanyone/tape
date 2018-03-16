@@ -55,8 +55,8 @@ extern void free_catalog(ps_list);
 #define STR(a) _STR(a)
 #define DID(a,...) if (!(a)){                                              \
     perror(__FILE__":"STR(__LINE__)" "STR(__VA_ARGS__));exit(1);}
-#define ERR(...) fprintf (stderr, STR(__LINE__)                        \
- ": " __VA_ARGS__);exit (EXIT_FAILURE)
+#define ERR(...) do{fprintf (stderr, STR(__LINE__) \
+ ": " __VA_ARGS__);exit (EXIT_FAILURE);}while(0);
 #define INFO(...) fprintf (stderr, __VA_ARGS__);
 #define FOR_IN(item, list) for (ps_list item=list;item;item=item->next)
 #endif // TAPE_H_

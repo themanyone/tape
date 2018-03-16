@@ -116,9 +116,8 @@ FILE *open_archive(const char *name, ps_list *cat) {
     } DID (fread(buf, 1, OFS, f_in));
     if ((s = strrchr(buf, '\n'))) *s = 0;
     if ((s = strrchr(buf, '\n'))) sz = s + 1 - buf;
-    else {
-        ERR ("%s does not appear to be a tape archive.\n", name);
-    } offset = atol(buf + sz);
+    else ERR ("%s does not appear to be a tape archive.\n", name);
+    offset = atol(buf + sz);
     if (!offset || offset > cat_SZ) {
         ERR ("Catalogs > %i bytes not supported for now.\n", cat_SZ);
     } DID (!fseek(f_in, -(offset + OFS - sz), SEEK_END));
