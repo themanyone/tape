@@ -38,7 +38,7 @@ typedef struct tape {
     struct tape *next;
     size_t sz;
     int ex;
-    char name;
+    char name[MAX_PATH];
 } s_list, *ps_list;
 extern void list_archive(const char *, int);
 extern void extract_list(FILE *, ps_list, char*, int);

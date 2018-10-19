@@ -96,7 +96,7 @@ void help(char **argv) {
             item->ex = 0;
             int i=option;
             for (;i<argc;i++) {
-                if (!strcmp(&item->name, argv[i])) item->ex = 1;
+                if (!strcmp(item->name, argv[i])) item->ex = 1;
         }   } extract_list (f_in, ctl, dir, pipe);
         free_catalog(ctl);
         fclose (f_in);

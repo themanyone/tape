@@ -88,10 +88,10 @@ void extract_next  FILE *f_in, ps_list item, char *dir, int pipe
         DID  !fseek(outfile, 0, SEEK_SET)
         FILE *infile = outfile
         if  pipe  outfile = stdout
-        else DID  outfile = fopen(&item->name,"wb")
+        else DID  outfile = fopen(item->name,"wb")
         lzma_stream strm = LZMA_STREAM_INIT
         DID  init_decoder(&strm)
-        DID  lzdecompress(&strm, &item->name, infile, outfile)
+        DID  lzdecompress(&strm, item->name, infile, outfile)
         lzma_end(&strm);
 
 #else
@@ -170,7 +170,7 @@ ps_list parse_catalog(char *catalog)
     char name[MAX_PATH]
     size_t sz
     ps_list cat = NULL
-    while  sscanf(catalog, "%[^,\n], %llu", name, &sz )==2
+    while  sscanf(catalog, "%[^,\n], %lu", name, &sz )==2
         catalog = strstr(catalog, "\n") + 1
         catalog_append  &cat, name, sz
     return cat
@@ -196,15 +196,15 @@ void free_catalog(ps_list cat)
  */
 void catalog_append(ps_list *pcat, char *name, size_t sz)
     ps_list cat = *pcat
-    if  !cat  cat = *pcat = malloc(sizeof *cat + MAX_PATH)
+    if  !cat  cat = *pcat = malloc(sizeof *cat)
     else
         while  cat->next  cat = cat->next
-        cat->next = malloc(sizeof *cat + MAX_PATH)
+        cat->next = malloc(sizeof *cat)
         cat = cat->next
     cat->next = NULL
     cat->sz = sz
     cat->ex = 1
-    strncpy(&cat->name, name, MAX_PATH)
+    strncpy(cat->name, name, MAX_PATH)
     return 
 
 /** Write tape from array of file names.
@@ -233,10 +233,10 @@ void tape_from_array(int last, char **argv, int compress)
     /* write catalog */
     sz = 0
     for  this_file=option; this_file < last; this_file++
-        sz += fprintf  f_out, "%s, %llu\n", argv[this_file],
+        sz += fprintf  f_out, "%s, %lu\n", argv[this_file],
         file_size[this_file]
     /* write catalog size */
-    fprintf  f_out, "%llu\n", sz
+    fprintf  f_out, "%lu\n", sz
     /* close output file */
     DID  !fclose(f_out)
     
