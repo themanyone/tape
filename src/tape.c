@@ -44,7 +44,7 @@ void help(char **argv) {
             "   -h Help\n", s, s);
 #endif
  exit (EXIT_FAILURE);
-} int main (int argc, char** argv) {
+} int main (int argc, char **argv) {
     FILE *f_in;
     int option, pipe = 0, compress = 0, extract = 0, cd=0, human = 0;
     char *dir = NULL;
