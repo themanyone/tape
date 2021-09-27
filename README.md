@@ -1,6 +1,6 @@
 # Things All Players Enjoy (TAPE)
 
-### Universal metadata format tagging and archive tool.
+### Universal metadata format, media tagging, and archive tool.
 
 Tape attaches metadata to files. You can also create archives. And attach metadata to archives. Use the same file extension as the original file to create long, "playable archives" that media players will play. Even do some very basic video editing from the command line.
 
