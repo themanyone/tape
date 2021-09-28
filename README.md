@@ -41,17 +41,13 @@ Tape is sort of like that. Except tape can also take them apart again.
 
 **Why not use Adobe XMP?** I did not want extra files kicking around with the same names but different extensions. I did not want hidden files or separate databases. I did not want a "standardized data model of serialization with core properties for the definition and processing of extensible metadata," whatever that means. I did not want to require my users to learn XML (although there is no restriction from attaching XML files with Tape, if they want to). I especially did not want a bureau of standards or commercial paywalls controlling my metadata.
 
-## Tape is better than `cat`
+## Examples
 
-* Taped *playable archives* can be easily extracted.
-* Tape can compress contents with `lzma`.
-* Freely use any type of metadata that suits you: I just tack on a text file.
-
-For example, `tape` can combine `t.mp3`, `a.mp3`, and `pe.mp3` into a new `tape.mp3`.
+Using `tape` to combine `t.mp3`, `a.mp3`, and `pe.mp3` into a new `tape.mp3`.
 
 `tape t.mp3 a.mp3 pe.mp3 tape.mp3`
 
-In this case, `tape.mp3` has the `.mp3` file extension, so media players will play it. For best results, all media files in the archive should share the same bit rate and encoding. Use other programs to edit the ID3 tags, or simply use `tape` to attach a database file or text file containing all the metadata you want to add about the archive at the end. It's up to you.
+Notice that `tape.mp3` has the `.mp3` file extension, so media players will play it. For best results, all media files in the archive should share the same bit rate and encoding. Use other programs to edit the ID3 tags, or simply use `tape` to attach a database file or text file containing all the metadata you want to add about the archive at the end. There are no restrictions on the type of metadata to include, or not include. The file, `pe.mp3` could even be a voice recording of the metadata. Or we could tape a text file onto the end. It is all up to you.
 
 **Note on combining different types of media**. You can put any kind of files and data into a tape archive. There are no restrictions. But if making a media archive, just remembetr that players will stop playing when they encounter a different type of media in the stream. Even when combining the same types of media files there could be hiccups that will stop some players from continuing, such as different bitrate, frame size, or compression scheme. The free console media player, [mpg123](https://www.mpg123.de/) calls these "Frankenstein streams". Tools like [ffmpeg](https://ffmpeg.org/) may be used to convert archive members into the same format, if necessary.
 
