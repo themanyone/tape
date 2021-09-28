@@ -1,12 +1,13 @@
-AC_INIT([tape], [1.0], [bug-automake@gnu.org])
+AC_INIT([tape],[0.1],[bug-automake@gnu.org])
 AM_INIT_AUTOMAKE([-Wall -Werror foreign])
+LT_PREREQ([2.2])
 AM_PROG_AR
+LT_INIT([dlopen])
 LT_INIT
 AC_PROG_CC
-AM_PROG_CC_STDC
 AC_C_CONST
-AC_LIBTOOL_WIN32_DLL
-AM_PROG_LIBTOOL
+
+LT_INIT
 AC_CONFIG_MACRO_DIRS([m4])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_FILES([

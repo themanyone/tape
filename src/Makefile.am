@@ -1,6 +1,7 @@
 bin_PROGRAMS = tape
 tape_SOURCES = tape.c
 tape_LDFLAGS = -ltape -lm
+tape_LDADD = libtape.la
 AM_CFLAGS = -g -Wall -pedantic -std=c99
 
 ACLOCAL_AMFLAGS = -I m4
